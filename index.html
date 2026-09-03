@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BMA II Sales Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700;800&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-page:#E7F1E1;
+    --surface:#FFFFFF;
+    --surface-alt:#F5FAF2;
+    --surface-sunken:#DCEBD5;
+    --ink-primary:#182C40;
+    --ink-secondary:#5B5646;
+    --ink-muted:#8C8570;
+    --ink-on-accent:#FFFDF8;
+    --border:rgba(24,44,64,0.12);
+    --border-soft:rgba(24,44,64,0.07);
+    --accent:#B9631F;
+    --accent-soft:#F1DCC0;
+    --accent-ink:#7A430F;
+    --bar-jul:#B7C6D6;
+    --bar-aug:#1E3A56;
+    --status-good:#1E8A4C;
+    --status-good-bg:#DFF0E4;
+    --status-warn:#B9761A;
+    --status-warn-bg:#F5E7CE;
+    --status-critical:#B23B34;
+    --status-critical-bg:#F5DFDB;
+    --status-info:#6B4FA0;
+    --status-info-bg:#EAE3F5;
+    --tier-red:#B23B34;        --tier-red-bg:#F5DFDB;
+    --tier-orange:#B9631F;     --tier-orange-bg:#F3E1CB;
+    --tier-yellow:#8A6D0E;     --tier-yellow-bg:#F5EBC4;
+    --tier-lgreen:#3C8C5E;     --tier-lgreen-bg:#E1F0E6;
+    --tier-green:#1E8A4C;      --tier-green-bg:#DFF0E4;
+    --tier-blue:#1D4E89;       --tier-blue-bg:#DCE7F3;
+    --shadow-card:0 1px 2px rgba(24,44,64,0.05), 0 8px 24px -16px rgba(24,44,64,0.25);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg-page:#111B14;
+      --surface:#1B2620;
+      --surface-alt:#20302A;
+      --surface-sunken:#0E1712;
+      --ink-primary:#F3EFE3;
+      --ink-secondary:#C6C2B2;
+      --ink-muted:#8B8B84;
+      --ink-on-accent:#1B120A;
+      --border:rgba(255,255,255,0.10);
+      --border-soft:rgba(255,255,255,0.06);
+      --accent:#E29A46;
+      --accent-soft:#3B2E1C;
+      --accent-ink:#F4CE9B;
+      --bar-jul:#3E4E5E;
+      --bar-aug:#7FB1DE;
+      --status-good:#3FBE79;
+      --status-good-bg:#173325;
+      --status-warn:#E3A83F;
+      --status-warn-bg:#3A2C13;
+      --status-critical:#E37A72;
+      --status-critical-bg:#3B1C19;
+      --status-info:#B9A6EA;
+      --status-info-bg:#2A2140;
+      --tier-red:#E37A72;        --tier-red-bg:#3B1C19;
+      --tier-orange:#E2953F;     --tier-orange-bg:#3A2A14;
+      --tier-yellow:#E8C34A;     --tier-yellow-bg:#362D12;
+      --tier-lgreen:#7BD2A0;     --tier-lgreen-bg:#17301F;
+      --tier-green:#3FBE79;      --tier-green-bg:#173325;
+      --tier-blue:#7FB1DE;       --tier-blue-bg:#17293B;
+      --shadow-card:0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -16px rgba(0,0,0,0.6);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg-page:#111B14;
+    --surface:#1B2620;
+    --surface-alt:#20302A;
+    --surface-sunken:#0E1712;
+    --ink-primary:#F3EFE3;
+    --ink-secondary:#C6C2B2;
+    --ink-muted:#8B8B84;
+    --ink-on-accent:#1B120A;
+    --border:rgba(255,255,255,0.10);
+    --border-soft:rgba(255,255,255,0.06);
+    --accent:#E29A46;
+    --accent-soft:#3B2E1C;
+    --accent-ink:#F4CE9B;
+    --bar-jul:#3E4E5E;
+    --bar-aug:#7FB1DE;
+    --status-good:#3FBE79;
+    --status-good-bg:#173325;
+    --status-warn:#E3A83F;
+    --status-warn-bg:#3A2C13;
+    --status-critical:#E37A72;
+    --status-critical-bg:#3B1C19;
+    --status-info:#B9A6EA;
+    --status-info-bg:#2A2140;
+    --tier-red:#E37A72;        --tier-red-bg:#3B1C19;
+    --tier-orange:#E2953F;     --tier-orange-bg:#3A2A14;
+    --tier-yellow:#E8C34A;     --tier-yellow-bg:#362D12;
+    --tier-lgreen:#7BD2A0;     --tier-lgreen-bg:#17301F;
+    --tier-green:#3FBE79;      --tier-green-bg:#173325;
+    --tier-blue:#7FB1DE;       --tier-blue-bg:#17293B;
+    --shadow-card:0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -16px rgba(0,0,0,0.6);
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg-page);color:var(--ink-primary);font-family:"IBM Plex Sans Thai","IBM Plex Sans",system-ui,sans-serif;}
+  .page{max-width:1180px;margin:0 auto;padding:40px 24px 64px;}
+
+  h1,h2,h3{font-family:"Kanit","IBM Plex Sans Thai",sans-serif;margin:0;text-wrap:balance;}
+  .tabular{font-variant-numeric:tabular-nums;}
+
+  /* ---------- Header ---------- */
+  .hdr{text-align:center;padding-bottom:28px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--accent-ink);text-transform:uppercase;}
+  .eyebrow::before,.eyebrow::after{content:"";width:20px;height:1px;background:var(--accent);opacity:0.55;}
+  .hdr h1{font-size:38px;font-weight:800;color:var(--ink-primary);margin-top:10px;}
+  .hdr p.sub{color:var(--ink-secondary);font-size:15px;margin:10px auto 0;max-width:620px;line-height:1.6;}
+  .asof-pill{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:7px 16px;border-radius:999px;background:var(--surface-sunken);color:var(--ink-secondary);font-size:12.5px;font-weight:500;}
+  .asof-pill b{color:var(--ink-primary);font-weight:600;}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--status-good);}
+
+  /* ---------- Filter bar ---------- */
+  .filterbar{position:sticky;top:0;z-index:30;background:var(--bg-page);padding:14px 0;margin-bottom:8px;border-bottom:1px solid var(--border-soft);}
+  .filterbar-inner{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;}
+  .filter-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .pill-btn{font-family:inherit;font-size:13.5px;font-weight:600;color:var(--ink-secondary);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s ease;white-space:nowrap;}
+  .pill-btn:hover{border-color:var(--accent);color:var(--ink-primary);}
+  .pill-btn.active{background:var(--ink-primary);border-color:var(--ink-primary);color:var(--ink-on-accent);}
+  .pill-btn.active.accent{background:var(--accent);border-color:var(--accent);}
+  .pill-btn:focus-visible,.iconbtn:focus-visible,.th-sort:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  .filter-spacer{flex:1 1 auto;min-width:8px;}
+
+  .dropdown{position:relative;}
+  .dropdown-btn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--ink-secondary);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:8px 14px 8px 16px;cursor:pointer;}
+  .dropdown-btn:hover{border-color:var(--accent);}
+  .dropdown-btn svg{opacity:0.6;transition:transform .15s ease;}
+  .dropdown-btn[aria-expanded="true"] svg{transform:rotate(180deg);}
+  .dropdown-panel{position:absolute;top:calc(100% + 8px);left:0;min-width:280px;max-height:320px;overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-card);padding:10px;z-index:40;}
+  .dropdown-panel.hidden{display:none;}
+  .dropdown-head{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 8px;border-bottom:1px solid var(--border-soft);margin-bottom:6px;}
+  .dropdown-head span{font-size:11px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.06em;}
+  .link-btn{background:none;border:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;padding:2px 4px;}
+  .check-row{display:flex;align-items:center;gap:10px;padding:7px 6px;border-radius:8px;cursor:pointer;font-size:13.5px;color:var(--ink-primary);}
+  .check-row:hover{background:var(--surface-alt);}
+  .check-row input{accent-color:var(--accent);width:15px;height:15px;}
+  .check-row .tag{margin-left:auto;font-size:10.5px;color:var(--ink-muted);background:var(--surface-sunken);padding:2px 7px;border-radius:6px;}
+
+  .metric-toggle{display:inline-flex;border:1px solid var(--border);border-radius:999px;background:var(--surface);padding:3px;gap:2px;}
+  .metric-toggle button{font-family:inherit;font-size:12.5px;font-weight:600;color:var(--ink-secondary);background:none;border:none;border-radius:999px;padding:6px 13px;cursor:pointer;}
+  .metric-toggle button.active{background:var(--accent);color:var(--ink-on-accent);}
+  .clear-link{background:none;border:none;font-family:inherit;font-size:13px;font-weight:600;color:var(--ink-muted);cursor:pointer;padding:8px 4px;}
+  .clear-link:hover{color:var(--status-critical);}
+
+  /* ---------- Section shell ---------- */
+  .section{margin-top:38px;}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:16px;}
+  .section-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);padding:4px 10px;border-radius:6px;margin-bottom:8px;}
+  .section-head h2{font-size:21px;font-weight:700;}
+  .section-head p{margin:4px 0 0;font-size:13.5px;color:var(--ink-secondary);}
+
+  /* ---------- KPI cards ---------- */
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow-card);}
+  .kpi-label{font-size:12px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.04em;}
+  .kpi-value{font-family:"Kanit",sans-serif;font-size:26px;font-weight:700;color:var(--ink-primary);margin-top:8px;line-height:1.1;}
+  .kpi-delta{margin-top:8px;font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:5px;}
+  .kpi-delta.up{color:var(--status-good);}
+  .kpi-delta.down{color:var(--status-critical);}
+  .kpi-delta .muted{color:var(--ink-muted);font-weight:500;}
+  .kpi-note{margin-top:8px;font-size:12px;color:var(--ink-muted);}
+
+  /* ---------- Runrate cards ---------- */
+  .runrate-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .runrate-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+  .runrate-title{font-size:14px;font-weight:700;color:var(--ink-primary);}
+  .status-chip{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap;}
+  .status-chip.good{background:var(--status-good-bg);color:var(--status-good);}
+  .status-chip.warn{background:var(--status-warn-bg);color:var(--status-warn);}
+  .status-chip.critical{background:var(--status-critical-bg);color:var(--status-critical);}
+  .runrate-value{font-family:"Kanit",sans-serif;font-size:24px;font-weight:700;margin-top:2px;}
+  .runrate-sub{font-size:12px;color:var(--ink-muted);margin-top:2px;margin-bottom:14px;}
+  .meter{position:relative;height:10px;border-radius:999px;background:var(--surface-sunken);overflow:visible;}
+  .meter-fill{height:100%;border-radius:999px;background:var(--ink-primary);transition:width .4s ease;}
+  .meter-fill.good{background:var(--status-good);}
+  .meter-fill.warn{background:var(--status-warn);}
+  .meter-fill.critical{background:var(--status-critical);}
+
+  /* ---------- Achievement tiers (<60 / 60-74.9 / 75-89.9 / 90-99.9 / 100-119.9 / >=120) ---------- */
+  .status-chip.tier-red,.achieve-chip.tier-red,.insight-badge.tier-red{background:var(--tier-red-bg);color:var(--tier-red);}
+  .status-chip.tier-orange,.achieve-chip.tier-orange,.insight-badge.tier-orange{background:var(--tier-orange-bg);color:var(--tier-orange);}
+  .status-chip.tier-yellow,.achieve-chip.tier-yellow,.insight-badge.tier-yellow{background:var(--tier-yellow-bg);color:var(--tier-yellow);}
+  .status-chip.tier-lgreen,.achieve-chip.tier-lgreen,.insight-badge.tier-lgreen{background:var(--tier-lgreen-bg);color:var(--tier-lgreen);}
+  .status-chip.tier-green,.achieve-chip.tier-green,.insight-badge.tier-green{background:var(--tier-green-bg);color:var(--tier-green);}
+  .status-chip.tier-blue,.achieve-chip.tier-blue,.insight-badge.tier-blue{background:var(--tier-blue-bg);color:var(--tier-blue);}
+  .meter-fill.tier-red{background:var(--tier-red);}
+  .meter-fill.tier-orange{background:var(--tier-orange);}
+  .meter-fill.tier-yellow{background:var(--tier-yellow);}
+  .meter-fill.tier-lgreen{background:var(--tier-lgreen);}
+  .meter-fill.tier-green{background:var(--tier-green);}
+  .meter-fill.tier-blue{background:var(--tier-blue);}
+  .insight-card.tier-red{border-left-color:var(--tier-red);}
+  .insight-card.tier-orange{border-left-color:var(--tier-orange);}
+  .insight-card.tier-yellow{border-left-color:var(--tier-yellow);}
+  .insight-card.tier-lgreen{border-left-color:var(--tier-lgreen);}
+  .insight-card.tier-green{border-left-color:var(--tier-green);}
+  .insight-card.tier-blue{border-left-color:var(--tier-blue);}
+  .tier-legend{display:flex;flex-wrap:wrap;gap:14px;margin:14px 0 4px;font-size:11.5px;color:var(--ink-secondary);}
+  .tier-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .tier-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  .meter-target{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink-primary);opacity:0.55;}
+  .meter-toplabel{position:absolute;right:0;top:-20px;font-size:11px;font-weight:600;color:var(--ink-secondary);}
+  .meter-foot{display:flex;justify-content:space-between;margin-top:20px;font-size:12px;}
+  .meter-foot div span{display:block;color:var(--ink-muted);margin-bottom:2px;}
+  .meter-foot div b{font-size:13.5px;color:var(--ink-primary);}
+
+  /* ---------- Bar chart ---------- */
+  .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 24px 18px;box-shadow:var(--shadow-card);}
+  .chart-legend{display:flex;gap:18px;margin-bottom:18px;font-size:12.5px;color:var(--ink-secondary);font-weight:600;}
+  .chart-legend span{display:inline-flex;align-items:center;gap:7px;}
+  .legend-swatch{width:12px;height:12px;border-radius:3px;}
+  .chart-row{display:grid;grid-template-columns:170px 1fr;align-items:center;gap:14px;padding:9px 0;border-bottom:1px solid var(--border-soft);position:relative;}
+  .chart-row:last-child{border-bottom:none;}
+  .chart-rowlabel{font-size:12.5px;font-weight:600;color:var(--ink-primary);line-height:1.35;}
+  .chart-rowlabel small{display:block;font-size:10.5px;font-weight:500;color:var(--ink-muted);margin-top:1px;}
+  .chart-track{position:relative;height:38px;}
+  .chart-grid{position:absolute;inset:0;}
+  .chart-gridline{position:absolute;top:0;bottom:0;width:1px;background:var(--border-soft);}
+  .chart-gridline.target{background:var(--ink-muted);opacity:0.55;width:1.5px;border-left:1.5px dashed var(--ink-muted);background:none;}
+  .chart-gridtick{position:absolute;bottom:-16px;transform:translateX(-50%);font-size:9.5px;color:var(--ink-muted);}
+  .chart-bar-wrap{position:absolute;left:0;height:12px;}
+  .chart-bar-wrap.jul{top:2px;}
+  .chart-bar-wrap.aug{top:18px;}
+  .chart-bar{height:100%;border-radius:0 4px 4px 0;position:relative;transition:width .35s ease;}
+  .chart-bar.jul{background:var(--bar-jul);}
+  .chart-bar.aug{background:var(--bar-aug);}
+  .chart-bar-val{position:absolute;left:calc(100% + 7px);top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:var(--ink-primary);white-space:nowrap;}
+  .chart-hit{position:absolute;inset:-4px 0;cursor:pointer;}
+
+  .tooltip{position:fixed;pointer-events:none;background:var(--ink-primary);color:var(--ink-on-accent);font-size:12px;padding:9px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.25);z-index:100;opacity:0;transition:opacity .1s ease;max-width:220px;}
+  .tooltip.show{opacity:1;}
+  .tooltip .tt-title{font-weight:700;margin-bottom:5px;font-size:12.5px;}
+  .tooltip .tt-row{display:flex;justify-content:space-between;gap:14px;padding:1px 0;}
+  .tooltip .tt-row span:first-child{opacity:0.75;}
+  .tooltip .tt-row b{font-variant-numeric:tabular-nums;}
+
+  /* ---------- Table ---------- */
+  .table-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-card);}
+  table{width:100%;border-collapse:collapse;}
+  thead th{text-align:right;font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-muted);padding:13px 16px;border-bottom:1px solid var(--border);background:var(--surface-alt);}
+  thead th:first-child{text-align:left;}
+  tbody td{padding:13px 16px;font-size:13.5px;text-align:right;border-bottom:1px solid var(--border-soft);color:var(--ink-primary);}
+  tbody td:first-child{text-align:left;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:var(--surface-alt);}
+  .shop-name{font-weight:600;}
+  .shop-type{display:block;font-size:10.5px;font-weight:500;color:var(--ink-muted);margin-top:1px;}
+  .achieve-chip{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;}
+  .achieve-chip.good{background:var(--status-good-bg);color:var(--status-good);}
+  .achieve-chip.warn{background:var(--status-warn-bg);color:var(--status-warn);}
+  .achieve-chip.critical{background:var(--status-critical-bg);color:var(--status-critical);}
+  .mom-val{font-weight:600;}
+  .mom-val.up{color:var(--status-good);}
+  .mom-val.down{color:var(--status-critical);}
+  tfoot td{padding:13px 16px;font-size:13px;font-weight:700;text-align:right;border-top:2px solid var(--border);background:var(--surface-alt);}
+  tfoot td:first-child{text-align:left;color:var(--ink-primary);}
+
+  /* ---------- Insights ---------- */
+  .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .insight-card{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--status-info);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow-card);}
+  .insight-card.good{border-left-color:var(--status-good);}
+  .insight-card.warn{border-left-color:var(--status-warn);}
+  .insight-card.critical{border-left-color:var(--status-critical);}
+  .insight-badge{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;padding:3px 9px;border-radius:6px;margin-bottom:10px;}
+  .insight-badge.good{background:var(--status-good-bg);color:var(--status-good);}
+  .insight-badge.warn{background:var(--status-warn-bg);color:var(--status-warn);}
+  .insight-badge.critical{background:var(--status-critical-bg);color:var(--status-critical);}
+  .insight-badge.info{background:var(--status-info-bg);color:var(--status-info);}
+  .insight-title{font-size:15px;font-weight:700;color:var(--ink-primary);margin-bottom:6px;line-height:1.4;}
+  .insight-body{font-size:13px;color:var(--ink-secondary);line-height:1.65;}
+  .insight-body strong{color:var(--ink-primary);font-weight:700;}
+
+  .footnote{margin-top:34px;padding-top:18px;border-top:1px solid var(--border-soft);font-size:11.5px;color:var(--ink-muted);line-height:1.7;}
+
+  .scrollx{overflow-x:auto;}
+
+  @media (max-width:860px){
+    .kpi-grid{grid-template-columns:1fr 1fr;}
+    .runrate-grid{grid-template-columns:1fr;}
+    .insight-grid{grid-template-columns:1fr;}
+    .chart-row{grid-template-columns:110px 1fr;}
+  }
+  @media (max-width:560px){
+    .kpi-grid{grid-template-columns:1fr;}
+    .hdr h1{font-size:28px;}
+  }
+</style>
+</head>
+<body>
+
+
+<div class="page">
+
+  <div class="hdr">
+    <span class="eyebrow">BMA II · South West &nbsp;·&nbsp; Executive Review</span>
+    <h1>BMA II Sales Performance</h1>
+    <p class="sub">ภาพรวมผลงานขาย 8 สาขาในพื้นที่ BMA II (South West) เทียบเป้าหมายและเทียบเดือนก่อนหน้า — ข้อมูลเชื่อมโยงจาก Shop Code ระหว่างชีท Index Shop, Target และ Data</p>
+    <div class="asof-pill"><span class="dot"></span> Data as of <b>31 Aug 2026</b> &nbsp;·&nbsp; Full month closed &nbsp;·&nbsp; vs <b>Jul 2026</b></div>
+  </div>
+
+  <div class="filterbar">
+    <div class="filterbar-inner">
+      <div class="filter-row" id="productFilterRow"></div>
+      <div class="filter-spacer"></div>
+      <div class="dropdown" id="shopDropdown">
+        <button class="dropdown-btn" id="shopDropdownBtn" aria-expanded="false" aria-haspopup="true">
+          <span id="shopDropdownLabel">Shop Name · All (8)</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dropdown-panel hidden" id="shopDropdownPanel">
+          <div class="dropdown-head">
+            <span>8 stores · BMA II</span>
+            <span><button class="link-btn" id="shopSelectAll">All</button> · <button class="link-btn" id="shopSelectNone">None</button></span>
+          </div>
+          <div id="shopCheckList"></div>
+        </div>
+      </div>
+      <div class="metric-toggle" id="metricToggle">
+        <button data-metric="net" class="active">Net Amount</button>
+        <button data-metric="qty">Quantity</button>
+      </div>
+      <button class="clear-link" id="clearFiltersBtn">Clear filters</button>
+    </div>
+  </div>
+
+  <!-- Section 1: Overview -->
+  <div class="section" id="sec-overview">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Overview · Aug 2026</span>
+        <h2>Performance Overview</h2>
+        <p>ยอดขายเดือนสิงหาคมเทียบเป้าหมายและเทียบเดือนกรกฎาคม (Month on Month)</p>
+      </div>
+    </div>
+    <div class="kpi-grid" id="kpiGrid"></div>
+  </div>
+
+  <!-- Section 2: Runrate -->
+  <div class="section" id="sec-runrate">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Runrate · Full-Month</span>
+        <h2>Runrate vs. Target (Full Month)</h2>
+        <p>เดือนสิงหาคมปิดครบ 31 วันแล้ว จึงเท่ากับยอดขายจริงเต็มเดือน (Runrate = Actual)</p>
+      </div>
+    </div>
+    <div class="runrate-grid" id="runrateGrid"></div>
+  </div>
+
+  <!-- Section 3: Bar chart -->
+  <div class="section" id="sec-chart">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Achievement · By Store</span>
+        <h2>% Achievement — Jul 26 vs Aug 26</h2>
+        <p>เปรียบเทียบ %Achieve รายสาขา เรียงจากผลงานดีที่สุดไปน้อยที่สุดของเดือนสิงหาคม เส้นประ = เป้าหมาย 100%</p>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-legend">
+        <span><i class="legend-swatch" style="background:var(--bar-jul)"></i>Jul 2026</span>
+        <span><i class="legend-swatch" style="background:var(--bar-aug)"></i>Aug 2026</span>
+      </div>
+      <div id="chartRows"></div>
+    </div>
+  </div>
+
+  <!-- Section 4: Table -->
+  <div class="section" id="sec-table">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Store Performance</span>
+        <h2>Target · Actual · %Achieve · %MoM รายสาขา</h2>
+        <p>เรียงลำดับตาม %Achieve เดือนสิงหาคม (มาก → น้อย)</p>
+      </div>
+    </div>
+    <div class="tier-legend">
+      <span><i style="background:var(--tier-red)"></i>&lt;60% Critical</span>
+      <span><i style="background:var(--tier-orange)"></i>60–74.9% Needs Improvement</span>
+      <span><i style="background:var(--tier-yellow)"></i>75–89.9% Getting There</span>
+      <span><i style="background:var(--tier-lgreen)"></i>90–99.9% Near Target</span>
+      <span><i style="background:var(--tier-green)"></i>100–119.9% Target Achieved</span>
+      <span><i style="background:var(--tier-blue)"></i>≥120% Exceptional</span>
+    </div>
+    <div class="table-card scrollx">
+      <table>
+        <thead>
+          <tr>
+            <th>Shop Name</th>
+            <th>Target (Aug)</th>
+            <th>Actual (Aug)</th>
+            <th>%Achieve</th>
+            <th>%MoM</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+        <tfoot id="tableFoot"></tfoot>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 5: Insights -->
+  <div class="section" id="sec-insights">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Executive Insights</span>
+        <h2>บทวิเคราะห์เชิงลึกสำหรับผู้บริหาร</h2>
+        <p>สรุปประเด็นสำคัญจากข้อมูลที่กรองอยู่ในขณะนี้ ปรับตามตัวกรอง Product / Shop ด้านบน</p>
+      </div>
+    </div>
+    <div class="insight-grid" id="insightGrid"></div>
+  </div>
+
+  <div class="footnote">
+    ข้อมูล: Area Performance Aug 26.xlsx (ชีท Index Shop, Target, Data เชื่อมโยงกันด้วย Shop Code) · พื้นที่ BMA II (South West) 8 สาขา ·
+    ไม่รวมสาขาใหม่ True Shop Lotus Charansanitwong 70 (เปิดเดือน ส.ค. 26 ยอดขายและเป้าหมายยังเป็น 0 ทั้งหมด ไม่มีข้อมูลเดือน ก.ค. เปรียบเทียบ) ·
+    Runrate ใช้ค่าจากไฟล์ต้นทาง (เท่ากับ Actual เนื่องจากเดือนปิดครบแล้ว) · จัดทำโดย Claude สำหรับ kittiphan.aum@gmail.com
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var RECORDS = [{"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "GIA", "target_qty": 844.0, "target_net": 1808042.0, "qty": 806, "net": 944976.0}, {"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "GIA", "target_qty": 1166.0, "target_net": 1960920.0, "qty": 708, "net": 1110627.0}, {"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "DEVICE", "target_qty": 891.8, "target_net": 14525848.1, "qty": 688, "net": 12924221.0}, {"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "DEVICE", "target_qty": 949.8, "target_net": 13765509.0, "qty": 627, "net": 10730104.0}, {"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "POSTPAID", "target_qty": 549.4, "target_net": 364252.5, "qty": 526, "net": 296201.0}, {"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "POSTPAID", "target_qty": 568.1, "target_net": 363205.6, "qty": 561, "net": 330001.0}, {"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "PREPAID", "target_qty": 112.5, "target_net": 114463.5, "qty": 61, "net": 93937.0}, {"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "PREPAID", "target_qty": 110.4, "target_net": 116106.5, "qty": 78, "net": 133942.0}, {"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "TRUE VISION", "target_qty": 346.9, "target_net": 31305.6, "qty": 105, "net": 8329.6}, {"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "TRUE VISION", "target_qty": 317.7, "target_net": 31305.6, "qty": 49, "net": 4802.2}, {"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "TRUE ONLINE", "target_qty": 101.8, "target_net": 56740.0, "qty": 85, "net": 53381.0}, {"shop_code": "80100484", "shop_name": "True Shop The Mall Bangkae 2Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "TRUE ONLINE", "target_qty": 101.8, "target_net": 56312.8, "qty": 84, "net": 52522.0}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "TRUE VISION", "target_qty": 284.9, "target_net": 27036.6, "qty": 82, "net": 6945.3}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "TRUE VISION", "target_qty": 296.7, "target_net": 27036.6, "qty": 63, "net": 6380.4}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "TRUE ONLINE", "target_qty": 99.5, "target_net": 50199.9, "qty": 78, "net": 50446.0}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "TRUE ONLINE", "target_qty": 99.5, "target_net": 50580.8, "qty": 85, "net": 50487.0}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "PREPAID", "target_qty": 193.2, "target_net": 128328.2, "qty": 98, "net": 168983.0}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "PREPAID", "target_qty": 120.4, "target_net": 126512.3, "qty": 92, "net": 178406.0}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "POSTPAID", "target_qty": 558.4, "target_net": 326309.6, "qty": 531, "net": 273943.8}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "POSTPAID", "target_qty": 576.0, "target_net": 325371.7, "qty": 507, "net": 262117.0}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "DEVICE", "target_qty": 800.5, "target_net": 13120009.2, "qty": 559, "net": 11098116.0}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "DEVICE", "target_qty": 840.9, "target_net": 13834203.2, "qty": 589, "net": 14215379.0}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "GIA", "target_qty": 806.0, "target_net": 1662280.0, "qty": 678, "net": 807869.0}, {"shop_code": "80100565", "shop_name": "True Shop Central Rama 2", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "GIA", "target_qty": 751.0, "target_net": 1721171.0, "qty": 625, "net": 991459.0}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "TRUE ONLINE", "target_qty": 104.0, "target_net": 55464.5, "qty": 126, "net": 78178.0}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "TRUE ONLINE", "target_qty": 104.0, "target_net": 55046.9, "qty": 106, "net": 62532.0}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "TRUE VISION", "target_qty": 214.9, "target_net": 32728.5, "qty": 88, "net": 8593.8}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "TRUE VISION", "target_qty": 308.7, "target_net": 32728.5, "qty": 57, "net": 12158.5}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "GIA", "target_qty": 1041.0, "target_net": 2432605.0, "qty": 678, "net": 1174397.0}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "GIA", "target_qty": 801.0, "target_net": 1900877.0, "qty": 1014, "net": 1500278.0}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "POSTPAID", "target_qty": 500.6, "target_net": 352110.8, "qty": 481, "net": 260352.8}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "POSTPAID", "target_qty": 578.2, "target_net": 351098.7, "qty": 548, "net": 316584.8}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "DEVICE", "target_qty": 819.1, "target_net": 16610732.1, "qty": 903, "net": 21284955.0}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "DEVICE", "target_qty": 1013.5, "target_net": 15978730.0, "qty": 641, "net": 12469013.0}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "PREPAID", "target_qty": 149.0, "target_net": 109995.6, "qty": 90, "net": 119861.0}, {"shop_code": "80100626", "shop_name": "True Shop Central Pinklao 3Fl.", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "PREPAID", "target_qty": 124.1, "target_net": 108439.1, "qty": 70, "net": 115078.0}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 7, "product": "DEVICE", "target_qty": 190.3, "target_net": 3405237.2, "qty": 65, "net": 1223055.0}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 7, "product": "TRUE ONLINE", "target_qty": 7.5, "target_net": 4293.3, "qty": 2, "net": 898.0}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 8, "product": "POSTPAID", "target_qty": 86.2, "target_net": 42565.8, "qty": 93, "net": 40197.0}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 8, "product": "DEVICE", "target_qty": 133.2, "target_net": 2684466.7, "qty": 90, "net": 1436719.0}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 8, "product": "GIA", "target_qty": 23.0, "target_net": 39011.0, "qty": 32, "net": 33320.0}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 7, "product": "GIA", "target_qty": 20.0, "target_net": 20830.0, "qty": 23, "net": 30795.0}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 7, "product": "PREPAID", "target_qty": 98.8, "target_net": 26127.6, "qty": 17, "net": 23763.0}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 7, "product": "POSTPAID", "target_qty": 64.4, "target_net": 42692.3, "qty": 63, "net": 28156.0}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 8, "product": "TRUE VISION", "target_qty": 86.3, "target_net": 7987.3, "qty": 9, "net": 1188.9}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 8, "product": "TRUE ONLINE", "target_qty": 7.5, "target_net": 4293.3, "qty": 5, "net": 3013.0}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 7, "product": "TRUE VISION", "target_qty": 86.3, "target_net": 7987.3, "qty": 2, "net": 148.0}, {"shop_code": "80101679", "shop_name": "True Shop Seacon Bangkae (D)", "shop_type": "DTAC COCO", "channel": "DTAC COCO", "month": 8, "product": "PREPAID", "target_qty": 92.2, "target_net": 25752.5, "qty": 13, "net": 26509.0}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "TRUE VISION", "target_qty": 262.7, "target_net": 21344.7, "qty": 24, "net": 2186.5}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "TRUE VISION", "target_qty": 280.7, "target_net": 21344.7, "qty": 38, "net": 3316.3}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "TRUE ONLINE", "target_qty": 67.8, "target_net": 36272.6, "qty": 63, "net": 37389.0}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "TRUE ONLINE", "target_qty": 67.8, "target_net": 36547.8, "qty": 49, "net": 28787.0}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "DEVICE", "target_qty": 471.0, "target_net": 5572802.1, "qty": 318, "net": 4829663.0}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "POSTPAID", "target_qty": 308.2, "target_net": 220950.1, "qty": 220, "net": 150898.0}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "GIA", "target_qty": 266.0, "target_net": 631521.0, "qty": 263, "net": 395838.0}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "PREPAID", "target_qty": 74.0, "target_net": 61108.7, "qty": 39, "net": 55401.0}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "PREPAID", "target_qty": 73.2, "target_net": 60243.9, "qty": 41, "net": 67307.0}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "DEVICE", "target_qty": 398.1, "target_net": 6408429.3, "qty": 382, "net": 7501179.0}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "GIA", "target_qty": 224.0, "target_net": 481449.0, "qty": 164, "net": 381426.0}, {"shop_code": "80100928", "shop_name": "True Shop Seacon Bangkae", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "POSTPAID", "target_qty": 307.5, "target_net": 221587.0, "qty": 217, "net": 139718.8}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "TRUE VISION", "target_qty": 308.9, "target_net": 21344.7, "qty": 20, "net": 2450.4}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "TRUE VISION", "target_qty": 275.7, "target_net": 21344.7, "qty": 18, "net": 1387.6}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "TRUE ONLINE", "target_qty": 67.8, "target_net": 36283.1, "qty": 50, "net": 29527.0}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "TRUE ONLINE", "target_qty": 67.8, "target_net": 36010.0, "qty": 50, "net": 28395.0}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "GIA", "target_qty": 183.0, "target_net": 350251.0, "qty": 173, "net": 233112.0}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "DEVICE", "target_qty": 461.8, "target_net": 4910897.6, "qty": 219, "net": 3365194.0}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "POSTPAID", "target_qty": 417.1, "target_net": 219436.7, "qty": 284, "net": 138458.0}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "PREPAID", "target_qty": 181.6, "target_net": 96390.3, "qty": 73, "net": 93849.0}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "GIA", "target_qty": 254.0, "target_net": 567603.0, "qty": 164, "net": 165716.0}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "PREPAID", "target_qty": 163.4, "target_net": 97773.9, "qty": 90, "net": 89990.0}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 8, "product": "DEVICE", "target_qty": 343.7, "target_net": 5189249.8, "qty": 245, "net": 4509255.0}, {"shop_code": "80100483", "shop_name": "True Shop The Mall Thapra", "shop_type": "Matching", "channel": "True Shop Matching", "month": 7, "product": "POSTPAID", "target_qty": 394.4, "target_net": 220069.2, "qty": 217, "net": 106057.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "TRUE ONLINE", "target_qty": 6.8, "target_net": 3323.8, "qty": 9, "net": 5867.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "TRUE ONLINE", "target_qty": 6.8, "target_net": 3349.1, "qty": 7, "net": 3575.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "TRUE VISION", "target_qty": 84.3, "target_net": 5691.9, "qty": 5, "net": 370.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "TRUE VISION", "target_qty": 75.2, "target_net": 5691.9, "qty": 2, "net": 148.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "PREPAID", "target_qty": 57.4, "target_net": 72292.7, "qty": 14, "net": 33612.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "GIA", "target_qty": 85.0, "target_net": 252596.0, "qty": 48, "net": 84481.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "PREPAID", "target_qty": 78.1, "target_net": 73330.4, "qty": 24, "net": 55172.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "GIA", "target_qty": 80.0, "target_net": 154064.0, "qty": 15, "net": 21985.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "DEVICE", "target_qty": 61.1, "target_net": 1657701.4, "qty": 120, "net": 2512781.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "POSTPAID", "target_qty": 35.0, "target_net": 18212.6, "qty": 39, "net": 18929.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "DEVICE", "target_qty": 113.5, "target_net": 1263903.1, "qty": 87, "net": 1576397.0}, {"shop_code": "80100566", "shop_name": "True Shop Central Rama 2 (H)", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "POSTPAID", "target_qty": 35.0, "target_net": 18160.3, "qty": 40, "net": 19461.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "PREPAID", "target_qty": 31.6, "target_net": 24097.6, "qty": 14, "net": 15404.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "DEVICE", "target_qty": 76.7, "target_net": 573313.2, "qty": 40, "net": 449121.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "POSTPAID", "target_qty": 31.0, "target_net": 15133.6, "qty": 19, "net": 9567.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "GIA", "target_qty": 55.0, "target_net": 85835.0, "qty": 14, "net": 7697.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "GIA", "target_qty": 37.0, "target_net": 61391.0, "qty": 12, "net": 9552.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "POSTPAID", "target_qty": 32.0, "target_net": 15177.2, "qty": 18, "net": 7884.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "DEVICE", "target_qty": 106.8, "target_net": 556378.5, "qty": 40, "net": 326992.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "PREPAID", "target_qty": 38.5, "target_net": 24443.5, "qty": 7, "net": 9496.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "TRUE VISION", "target_qty": 34.7, "target_net": 2846.0, "qty": 1, "net": 74.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "TRUE VISION", "target_qty": 38.9, "target_net": 2846.0, "qty": 1, "net": 74.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 7, "product": "TRUE ONLINE", "target_qty": 4.5, "target_net": 2785.5, "qty": 4, "net": 2296.0}, {"shop_code": "80100736", "shop_name": "True Shop Lotus's Bangpakok", "shop_type": "Non Matching", "channel": "True Shop Non Matching", "month": 8, "product": "TRUE ONLINE", "target_qty": 4.5, "target_net": 2764.5, "qty": 3, "net": 1598.0}];
+
+  var PRODUCTS = [
+    {key:"POSTPAID", label:"Postpaid"},
+    {key:"PREPAID", label:"Prepaid"},
+    {key:"TRUE VISION", label:"True Vision"},
+    {key:"TRUE ONLINE", label:"True Online"},
+    {key:"DEVICE", label:"Device"},
+    {key:"GIA", label:"GIA"}
+  ];
+
+  var shopMap = {};
+  RECORDS.forEach(function(r){
+    if(!shopMap[r.shop_code]) shopMap[r.shop_code] = {shop_code:r.shop_code, shop_name:r.shop_name, shop_type:r.shop_type, channel:r.channel};
+  });
+  var SHOPS = Object.keys(shopMap).map(function(k){return shopMap[k];}).sort(function(a,b){return a.shop_name.localeCompare(b.shop_name);});
+
+  var state = {
+    product: "ALL",
+    shops: new Set(SHOPS.map(function(s){return s.shop_code;})),
+    metric: "net"
+  };
+
+  // ---------- helpers ----------
+  function fmtCurrency(v){
+    var sign = v < 0 ? "-" : "";
+    var a = Math.abs(v);
+    var s;
+    if(a >= 1e6) s = (a/1e6).toFixed(1) + "M";
+    else if(a >= 1e3) s = (a/1e3).toFixed(1) + "K";
+    else s = a.toFixed(0);
+    return sign + "฿" + s;
+  }
+  function fmtQty(v){
+    var sign = v < 0 ? "-" : "";
+    return sign + Math.round(Math.abs(v)).toLocaleString("en-US");
+  }
+  function fmtMetric(v, metric){ return metric === "net" ? fmtCurrency(v) : fmtQty(v); }
+  function fmtPct(v){ return (isFinite(v) ? v.toFixed(1) : "0.0") + "%"; }
+  function fmtSigned(v, digits){ var d = digits===undefined?1:digits; return (v>=0?"+":"") + v.toFixed(d) + "%"; }
+  function el(tag, cls, text){
+    var e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(text !== undefined && text !== null) e.textContent = text;
+    return e;
+  }
+  function productLabel(key){
+    if(key === "ALL") return "All Products";
+    var p = PRODUCTS.filter(function(p){return p.key===key;})[0];
+    return p ? p.label : key;
+  }
+
+  // ---------- data pipeline ----------
+  function filteredRecords(){
+    return RECORDS.filter(function(r){
+      return (state.product === "ALL" || r.product === state.product) && state.shops.has(r.shop_code);
+    });
+  }
+
+  function aggByMonth(records){
+    var out = {7:{net:0,qty:0,target_net:0,target_qty:0}, 8:{net:0,qty:0,target_net:0,target_qty:0}};
+    records.forEach(function(r){
+      var b = out[r.month];
+      if(!b) return;
+      b.net += r.net; b.qty += r.qty; b.target_net += r.target_net; b.target_qty += r.target_qty;
+    });
+    return out;
+  }
+
+  function computeOverview(records){
+    var byMonth = aggByMonth(records);
+    var aug = byMonth[8], jul = byMonth[7];
+    var metric = state.metric;
+    var actualAug = aug[metric], targetAug = aug["target_" + metric];
+    var actualJul = jul[metric];
+    var pctAchieve = targetAug > 0 ? (actualAug/targetAug*100) : 0;
+    var mom = actualJul > 0 ? ((actualAug-actualJul)/actualJul*100) : 0;
+    return {aug:aug, jul:jul, actualAug:actualAug, targetAug:targetAug, actualJul:actualJul, pctAchieve:pctAchieve, mom:mom};
+  }
+
+  function computePerShop(records){
+    var byShop = {};
+    records.forEach(function(r){
+      if(!byShop[r.shop_code]){
+        var meta = shopMap[r.shop_code];
+        byShop[r.shop_code] = {shop_code:r.shop_code, shop_name:meta.shop_name, shop_type:meta.shop_type, channel:meta.channel,
+          net_aug:0, net_jul:0, qty_aug:0, qty_jul:0, target_net_aug:0, target_net_jul:0, target_qty_aug:0, target_qty_jul:0};
+      }
+      var b = byShop[r.shop_code];
+      if(r.month === 8){ b.net_aug += r.net; b.qty_aug += r.qty; b.target_net_aug += r.target_net; b.target_qty_aug += r.target_qty; }
+      else { b.net_jul += r.net; b.qty_jul += r.qty; b.target_net_jul += r.target_net; b.target_qty_jul += r.target_qty; }
+    });
+    var metric = state.metric;
+    var list = Object.keys(byShop).map(function(k){
+      var b = byShop[k];
+      var actualAug = metric==="net" ? b.net_aug : b.qty_aug;
+      var actualJul = metric==="net" ? b.net_jul : b.qty_jul;
+      var targetAug = metric==="net" ? b.target_net_aug : b.target_qty_aug;
+      var targetJul = metric==="net" ? b.target_net_jul : b.target_qty_jul;
+      return {
+        shop_code:b.shop_code, shop_name:b.shop_name, shop_type:b.shop_type, channel:b.channel,
+        actualAug:actualAug, actualJul:actualJul, targetAug:targetAug, targetJul:targetJul,
+        pctAug: targetAug>0 ? actualAug/targetAug*100 : 0,
+        pctJul: targetJul>0 ? actualJul/targetJul*100 : 0,
+        mom: actualJul>0 ? (actualAug-actualJul)/actualJul*100 : 0
+      };
+    });
+    list.sort(function(a,b){ return b.pctAug - a.pctAug; });
+    return list;
+  }
+
+  function computeByProduct(records){
+    var byProd = {};
+    records.forEach(function(r){
+      if(!byProd[r.product]) byProd[r.product] = {product:r.product, net_aug:0, net_jul:0, target_net_aug:0};
+      var b = byProd[r.product];
+      if(r.month===8){ b.net_aug += r.net; b.target_net_aug += r.target_net; }
+      else { b.net_jul += r.net; }
+    });
+    return Object.keys(byProd).map(function(k){
+      var b = byProd[k];
+      return {product:b.product, net_aug:b.net_aug, net_jul:b.net_jul, target_net_aug:b.target_net_aug,
+        pct: b.target_net_aug>0 ? b.net_aug/b.target_net_aug*100 : 0,
+        mom: b.net_jul>0 ? (b.net_aug-b.net_jul)/b.net_jul*100 : 0};
+    });
+  }
+
+  // Achievement tiers: <60 red · 60-74.9 orange · 75-89.9 yellow · 90-99.9 light green · 100-119.9 green · >=120 blue
+  function statusOf(pct){
+    if(pct < 60) return {tier:"red", label:"Critical", up:false};
+    if(pct < 75) return {tier:"orange", label:"Needs Improvement", up:false};
+    if(pct < 90) return {tier:"yellow", label:"Getting There", up:false};
+    if(pct < 100) return {tier:"lgreen", label:"Near Target", up:true};
+    if(pct < 120) return {tier:"green", label:"Target Achieved", up:true};
+    return {tier:"blue", label:"Exceptional", up:true};
+  }
+  var TIER_TITLE_TH = {
+    red:"วิกฤต ต่ำกว่าเป้าหมายมาก", orange:"ต่ำกว่าเป้าหมาย ต้องเร่งกระตุ้น", yellow:"ใกล้เป้าหมาย ต้องผลักดันอีกนิด",
+    lgreen:"เกือบถึงเป้าหมาย", green:"ทำเป้าหมายสำเร็จ", blue:"ทำผลงานเกินเป้าหมายอย่างโดดเด่น"
+  };
+
+  // ---------- render: filter controls ----------
+  function renderProductFilter(){
+    var row = document.getElementById("productFilterRow");
+    row.innerHTML = "";
+    var allBtn = el("button", "pill-btn accent" + (state.product==="ALL"?" active":""), "All Products");
+    allBtn.addEventListener("click", function(){ state.product="ALL"; syncProductButtons(); renderAll(); });
+    row.appendChild(allBtn);
+    PRODUCTS.forEach(function(p){
+      var btn = el("button", "pill-btn accent" + (state.product===p.key?" active":""), p.label);
+      btn.dataset.key = p.key;
+      btn.addEventListener("click", function(){ state.product = p.key; syncProductButtons(); renderAll(); });
+      row.appendChild(btn);
+    });
+  }
+  function syncProductButtons(){
+    var row = document.getElementById("productFilterRow");
+    Array.prototype.forEach.call(row.children, function(btn, i){
+      var key = i===0 ? "ALL" : PRODUCTS[i-1].key;
+      btn.classList.toggle("active", state.product === key);
+    });
+  }
+
+  function renderShopChecklist(){
+    var list = document.getElementById("shopCheckList");
+    list.innerHTML = "";
+    SHOPS.forEach(function(s){
+      var row = el("label", "check-row");
+      var cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = state.shops.has(s.shop_code);
+      cb.addEventListener("change", function(){
+        if(cb.checked) state.shops.add(s.shop_code); else state.shops.delete(s.shop_code);
+        updateShopLabel();
+        renderAll();
+      });
+      row.appendChild(cb);
+      var nameSpan = el("span", null, s.shop_name);
+      row.appendChild(nameSpan);
+      if(s.shop_type !== "Matching"){
+        row.appendChild(el("span", "tag", s.shop_type));
+      }
+      list.appendChild(row);
+    });
+  }
+  function updateShopLabel(){
+    var n = state.shops.size, total = SHOPS.length;
+    var label = document.getElementById("shopDropdownLabel");
+    label.textContent = n === total ? ("Shop Name · All (" + total + ")") : ("Shop Name · " + n + " of " + total);
+  }
+
+  function setupDropdown(){
+    var btn = document.getElementById("shopDropdownBtn");
+    var panel = document.getElementById("shopDropdownPanel");
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      var willOpen = panel.classList.contains("hidden");
+      panel.classList.toggle("hidden", !willOpen);
+      btn.setAttribute("aria-expanded", willOpen ? "true" : "false");
+    });
+    document.addEventListener("click", function(e){
+      if(!panel.contains(e.target) && e.target !== btn){
+        panel.classList.add("hidden");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+    document.getElementById("shopSelectAll").addEventListener("click", function(){
+      state.shops = new Set(SHOPS.map(function(s){return s.shop_code;}));
+      renderShopChecklist(); updateShopLabel(); renderAll();
+    });
+    document.getElementById("shopSelectNone").addEventListener("click", function(){
+      state.shops = new Set();
+      renderShopChecklist(); updateShopLabel(); renderAll();
+    });
+  }
+
+  function setupMetricToggle(){
+    var wrap = document.getElementById("metricToggle");
+    Array.prototype.forEach.call(wrap.querySelectorAll("button"), function(btn){
+      btn.addEventListener("click", function(){
+        state.metric = btn.dataset.metric;
+        Array.prototype.forEach.call(wrap.querySelectorAll("button"), function(b){ b.classList.toggle("active", b===btn); });
+        renderAll();
+      });
+    });
+  }
+
+  function setupClearFilters(){
+    document.getElementById("clearFiltersBtn").addEventListener("click", function(){
+      state.product = "ALL";
+      state.shops = new Set(SHOPS.map(function(s){return s.shop_code;}));
+      syncProductButtons();
+      renderShopChecklist();
+      updateShopLabel();
+      renderAll();
+    });
+  }
+
+  // ---------- render: KPI ----------
+  function renderKPI(ov){
+    var grid = document.getElementById("kpiGrid");
+    grid.innerHTML = "";
+    var metricLabel = state.metric === "net" ? "Net Amount" : "Quantity";
+
+    // Actual
+    var c1 = el("div","card");
+    c1.appendChild(el("div","kpi-label","Actual Sales (Aug)"));
+    c1.appendChild(el("div","kpi-value tabular", fmtMetric(ov.actualAug, state.metric)));
+    var d1 = el("div","kpi-delta " + (ov.mom>=0?"up":"down"));
+    d1.appendChild(document.createTextNode((ov.mom>=0?"▲ ":"▼ ") + fmtSigned(ov.mom,1) + " "));
+    d1.appendChild(el("span","muted","vs Jul (" + metricLabel + ")"));
+    c1.appendChild(d1);
+    grid.appendChild(c1);
+
+    // Target
+    var c2 = el("div","card");
+    c2.appendChild(el("div","kpi-label","Target (Aug)"));
+    c2.appendChild(el("div","kpi-value tabular", fmtMetric(ov.targetAug, state.metric)));
+    var gap = ov.actualAug - ov.targetAug;
+    c2.appendChild(el("div","kpi-note", (gap>=0?"Exceeded target by ":"Below target by ") + fmtMetric(Math.abs(gap), state.metric)));
+    grid.appendChild(c2);
+
+    // %Achieve
+    var c3 = el("div","card");
+    c3.appendChild(el("div","kpi-label","%Target Achievement"));
+    c3.appendChild(el("div","kpi-value tabular", fmtPct(ov.pctAchieve)));
+    var st = statusOf(ov.pctAchieve);
+    var d3 = el("div","kpi-delta", (st.up ? "▲ " : "▼ ") + st.label);
+    d3.style.color = "var(--tier-" + st.tier + ")";
+    c3.appendChild(d3);
+    grid.appendChild(c3);
+
+    // MoM growth
+    var c4 = el("div","card");
+    c4.appendChild(el("div","kpi-label","MoM Growth"));
+    c4.appendChild(el("div","kpi-value tabular " , (ov.mom>=0?"":"")));
+    c4.lastChild.textContent = fmtSigned(ov.mom,1);
+    c4.lastChild.style.color = ov.mom>=0 ? "var(--status-good)" : "var(--status-critical)";
+    c4.appendChild(el("div","kpi-note", "Jul " + fmtMetric(ov.actualJul, state.metric) + "  →  Aug " + fmtMetric(ov.actualAug, state.metric)));
+    grid.appendChild(c4);
+  }
+
+  // ---------- render: Runrate ----------
+  function runrateCard(title, actual, target, fmtFn){
+    var pct = target>0 ? actual/target*100 : 0;
+    var st = statusOf(pct);
+    var card = el("div","card");
+    var head = el("div","runrate-card-head");
+    head.appendChild(el("div","runrate-title", title));
+    head.appendChild(el("div","status-chip tier-" + st.tier, st.label));
+    card.appendChild(head);
+    card.appendChild(el("div","runrate-value tabular", fmtFn(actual)));
+    card.appendChild(el("div","runrate-sub", "Full-month actual vs target · Aug 2026"));
+
+    var meterWrap = document.createElement("div");
+    meterWrap.style.position = "relative";
+    meterWrap.style.marginTop = "22px";
+    var toplabel = el("div","meter-toplabel tabular", fmtPct(pct));
+    meterWrap.appendChild(toplabel);
+    var meter = el("div","meter");
+    var fill = el("div","meter-fill tier-" + st.tier);
+    fill.style.width = Math.min(pct,100) + "%";
+    meter.appendChild(fill);
+    var tmark = el("div","meter-target");
+    tmark.style.left = Math.min(100, (target>0?100:0)) + "%";
+    if(pct > 100){
+      // scale track to pct so target marker sits inside
+      var scaleMax = Math.max(100, pct) * 1.02;
+      fill.style.width = (pct/scaleMax*100) + "%";
+      tmark.style.left = (100/scaleMax*100) + "%";
+    }
+    meter.appendChild(tmark);
+    meterWrap.appendChild(meter);
+    card.appendChild(meterWrap);
+
+    var foot = el("div","meter-foot");
+    var f1 = el("div"); f1.appendChild(el("span",null,"Actual (Aug)")); f1.appendChild(el("b","tabular",fmtFn(actual))); foot.appendChild(f1);
+    var f2 = el("div"); f2.appendChild(el("span",null,"Full-month target")); f2.appendChild(el("b","tabular",fmtFn(target))); foot.appendChild(f2);
+    var f3 = el("div"); f3.style.textAlign="right"; f3.appendChild(el("span",null,"Gap")); var gapEl = el("b","tabular", (actual-target>=0?"+":"") + fmtFn(actual-target)); gapEl.style.color = actual-target>=0 ? "var(--status-good)" : "var(--status-critical)"; f3.appendChild(gapEl); foot.appendChild(f3);
+    card.appendChild(foot);
+    return card;
+  }
+
+  function renderRunrate(ov){
+    var grid = document.getElementById("runrateGrid");
+    grid.innerHTML = "";
+    grid.appendChild(runrateCard("Runrate · Quantity", ov.aug.qty, ov.aug.target_qty, fmtQty));
+    grid.appendChild(runrateCard("Runrate · Net Amount", ov.aug.net, ov.aug.target_net, fmtCurrency));
+  }
+
+  // ---------- render: bar chart ----------
+  var tooltipEl;
+  function showTooltip(e, rows, title){
+    if(!tooltipEl) tooltipEl = document.getElementById("tooltip");
+    tooltipEl.innerHTML = "";
+    tooltipEl.appendChild(el("div","tt-title", title));
+    rows.forEach(function(r){
+      var row = el("div","tt-row");
+      row.appendChild(el("span",null,r[0]));
+      row.appendChild(el("b","tabular",r[1]));
+      tooltipEl.appendChild(row);
+    });
+    tooltipEl.classList.add("show");
+    moveTooltip(e);
+  }
+  function moveTooltip(e){
+    if(!tooltipEl) return;
+    var x = e.clientX + 16, y = e.clientY + 16;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var rect = tooltipEl.getBoundingClientRect();
+    if(x + rect.width > vw - 12) x = e.clientX - rect.width - 16;
+    if(y + rect.height > vh - 12) y = e.clientY - rect.height - 16;
+    tooltipEl.style.left = x + "px";
+    tooltipEl.style.top = y + "px";
+  }
+  function hideTooltip(){ if(tooltipEl) tooltipEl.classList.remove("show"); }
+
+  function renderChart(perShop){
+    var wrap = document.getElementById("chartRows");
+    wrap.innerHTML = "";
+    if(perShop.length === 0){
+      wrap.appendChild(el("div","kpi-note","No stores selected."));
+      return;
+    }
+    var maxPct = perShop.reduce(function(m,s){ return Math.max(m, s.pctAug, s.pctJul); }, 0);
+    var scaleMax = Math.max(120, Math.ceil((maxPct*1.15)/10)*10);
+    var ticks = [];
+    var step = scaleMax <= 150 ? 25 : (scaleMax <= 300 ? 50 : 100);
+    for(var t=0; t<=scaleMax; t+=step) ticks.push(t);
+
+    perShop.forEach(function(s, idx){
+      var row = el("div","chart-row");
+      var label = el("div","chart-rowlabel");
+      label.appendChild(document.createTextNode(s.shop_name));
+      if(s.shop_type !== "Matching"){
+        label.appendChild(el("small",null,s.shop_type));
+      }
+      row.appendChild(label);
+
+      var track = el("div","chart-track");
+      var grid = el("div","chart-grid");
+      ticks.forEach(function(tv){
+        var gl = el("div", tv===100 ? "chart-gridline target" : "chart-gridline");
+        gl.style.left = (tv/scaleMax*100) + "%";
+        grid.appendChild(gl);
+        if(idx === perShop.length-1){
+          var tick = el("div","chart-gridtick", tv+"%");
+          tick.style.left = (tv/scaleMax*100) + "%";
+          gl.appendChild(tick);
+        }
+      });
+      track.appendChild(grid);
+
+      var julWrap = el("div","chart-bar-wrap jul");
+      var julW = Math.max(0, Math.min(100, s.pctJul/scaleMax*100));
+      julWrap.style.width = julW + "%";
+      var julBar = el("div","chart-bar jul"); julBar.style.width="100%"; julWrap.appendChild(julBar);
+      julWrap.appendChild(el("div","chart-bar-val tabular", fmtPct(s.pctJul)));
+      track.appendChild(julWrap);
+
+      var augWrap = el("div","chart-bar-wrap aug");
+      var augW = Math.max(0, Math.min(100, s.pctAug/scaleMax*100));
+      augWrap.style.width = augW + "%";
+      var augBar = el("div","chart-bar aug"); augBar.style.width="100%"; augWrap.appendChild(augBar);
+      augWrap.appendChild(el("div","chart-bar-val tabular", fmtPct(s.pctAug)));
+      track.appendChild(augWrap);
+
+      var hit = el("div","chart-hit");
+      hit.addEventListener("pointermove", function(e){
+        showTooltip(e, [
+          ["Jul 2026", fmtPct(s.pctJul)],
+          ["Aug 2026", fmtPct(s.pctAug)],
+          ["MoM " + (state.metric==="net"?"Net":"Qty"), fmtSigned(s.mom,1)]
+        ], s.shop_name);
+      });
+      hit.addEventListener("pointerleave", hideTooltip);
+      track.appendChild(hit);
+
+      row.appendChild(track);
+      wrap.appendChild(row);
+    });
+  }
+
+  // ---------- render: table ----------
+  function renderTable(perShop){
+    var body = document.getElementById("tableBody");
+    body.innerHTML = "";
+    perShop.forEach(function(s){
+      var tr = document.createElement("tr");
+
+      var tdName = document.createElement("td");
+      tdName.appendChild(el("span","shop-name", s.shop_name));
+      if(s.shop_type !== "Matching"){
+        tdName.appendChild(el("span","shop-type", s.shop_type));
+      }
+      tr.appendChild(tdName);
+
+      var tdTarget = el("td","tabular", fmtMetric(s.targetAug, state.metric));
+      tr.appendChild(tdTarget);
+
+      var tdActual = el("td","tabular", fmtMetric(s.actualAug, state.metric));
+      tr.appendChild(tdActual);
+
+      var tdPct = document.createElement("td");
+      tdPct.appendChild(el("span","achieve-chip tier-" + statusOf(s.pctAug).tier, fmtPct(s.pctAug)));
+      tr.appendChild(tdPct);
+
+      var tdMom = el("td","tabular mom-val " + (s.mom>=0?"up":"down"), fmtSigned(s.mom,1));
+      tr.appendChild(tdMom);
+
+      body.appendChild(tr);
+    });
+
+    var foot = document.getElementById("tableFoot");
+    foot.innerHTML = "";
+    var totalTarget = perShop.reduce(function(a,s){return a+s.targetAug;},0);
+    var totalActual = perShop.reduce(function(a,s){return a+s.actualAug;},0);
+    var totalJul = perShop.reduce(function(a,s){return a+s.actualJul;},0);
+    var totalPct = totalTarget>0 ? totalActual/totalTarget*100 : 0;
+    var totalMom = totalJul>0 ? (totalActual-totalJul)/totalJul*100 : 0;
+    var tr = document.createElement("tr");
+    tr.appendChild(el("td",null,"BMA II · Area Total"));
+    tr.appendChild(el("td","tabular",fmtMetric(totalTarget,state.metric)));
+    tr.appendChild(el("td","tabular",fmtMetric(totalActual,state.metric)));
+    tr.appendChild(el("td","tabular",fmtPct(totalPct)));
+    var momTd = el("td","tabular",fmtSigned(totalMom,1));
+    momTd.style.color = totalMom>=0 ? "var(--status-good)" : "var(--status-critical)";
+    tr.appendChild(momTd);
+    foot.appendChild(tr);
+  }
+
+  // ---------- render: insights ----------
+  function richParagraph(container, parts){
+    parts.forEach(function(p){
+      if(typeof p === "string"){
+        container.appendChild(document.createTextNode(p));
+      } else {
+        var strong = document.createElement("strong");
+        strong.textContent = p.strong;
+        container.appendChild(strong);
+      }
+    });
+  }
+
+  var TIER_KEYS = {red:1, orange:1, yellow:1, lgreen:1, green:1, blue:1};
+  function insightCard(status, badge, title, parts){
+    var cls = TIER_KEYS[status] ? ("tier-" + status) : status;
+    var card = el("div","insight-card " + cls);
+    card.appendChild(el("div","insight-badge " + cls, badge));
+    card.appendChild(el("div","insight-title", title));
+    var body = el("div","insight-body");
+    richParagraph(body, parts);
+    card.appendChild(body);
+    return card;
+  }
+
+  function renderInsights(ov, perShop, records){
+    var grid = document.getElementById("insightGrid");
+    grid.innerHTML = "";
+    var metric = state.metric;
+    var scopeLabel = productLabel(state.product);
+    var shopScope = perShop.length === SHOPS.length ? "ทั้ง 8 สาขา" : (perShop.length + " จาก 8 สาขาที่เลือก");
+
+    // 1. Headline
+    var headStatus = statusOf(ov.pctAchieve);
+    var headParts = [
+      "พื้นที่ BMA II เดือนสิงหาคม 2026 (", {strong: scopeLabel}, ", ", shopScope, ") ทำยอดขายได้ ",
+      {strong: fmtMetric(ov.actualAug, metric)}, " จากเป้าหมาย ", {strong: fmtMetric(ov.targetAug, metric)},
+      " คิดเป็น ", {strong: fmtPct(ov.pctAchieve) + " ของเป้าหมาย"},
+      ov.mom >= 0 ? ", เติบโต " : ", ลดลง ",
+      {strong: fmtSigned(Math.abs(ov.mom)*(ov.mom>=0?1:-1),1) + " เทียบเดือนกรกฎาคม"},
+      " (" + fmtMetric(ov.actualJul, metric) + " → " + fmtMetric(ov.actualAug, metric) + ")"
+    ];
+    grid.appendChild(insightCard(headStatus.tier, "ภาพรวมพื้นที่",
+      TIER_TITLE_TH[headStatus.tier] + " (" + fmtPct(ov.pctAchieve) + ")",
+      headParts));
+
+    if(perShop.length >= 2){
+      var top = perShop[0];
+      var bottom = perShop[perShop.length-1];
+      var topTier = statusOf(top.pctAug);
+      var bottomTier = statusOf(bottom.pctAug);
+
+      grid.appendChild(insightCard(topTier.tier, "สาขาโดดเด่น",
+        top.shop_name + " นำทีมด้วย %Achieve " + fmtPct(top.pctAug),
+        [
+          {strong: top.shop_name}, " ทำยอดขาย ", {strong: fmtMetric(top.actualAug, metric)},
+          " เทียบเป้า ", fmtMetric(top.targetAug, metric), " คิดเป็น ", {strong: fmtPct(top.pctAug) + " (" + topTier.label + ")"},
+          top.mom >= 0 ? " และยังเติบโต " : " แม้ยอดจะลดลง ",
+          {strong: fmtSigned(top.mom,1) + " จากเดือนกรกฎาคม"},
+          top.shop_type !== "Matching" ? (" (ช่องทาง " + top.shop_type + ")") : ""
+        ]));
+
+      grid.appendChild(insightCard(bottomTier.tier, "ควรจับตา",
+        bottom.shop_name + " ทำได้เพียง " + fmtPct(bottom.pctAug) + " ของเป้าหมาย (" + bottomTier.label + ")",
+        [
+          {strong: bottom.shop_name}, " ทำยอดขาย ", {strong: fmtMetric(bottom.actualAug, metric)},
+          " จากเป้า ", fmtMetric(bottom.targetAug, metric), " (", {strong: fmtPct(bottom.pctAug)}, ")",
+          bottom.shop_type !== "Matching" ? (" ผ่านช่องทาง " + bottom.shop_type + " ") : " ",
+          bottom.mom >= 0
+            ? ("อย่างไรก็ตามเดือนนี้ยังเติบโต " + fmtSigned(bottom.mom,1) + " จากเดือนกรกฎาคม เป็นสัญญาณฟื้นตัวที่ควรผลักดันต่อ")
+            : ("และยังลดลงต่อเนื่อง " + fmtSigned(bottom.mom,1) + " จากเดือนกรกฎาคม ควรทบทวนแผนกระตุ้นยอดขายของสาขานี้โดยเร็ว")
+        ]));
+    } else if(perShop.length === 1){
+      var only = perShop[0];
+      var st = statusOf(only.pctAug);
+      grid.appendChild(insightCard(st.tier, "รายละเอียดสาขา",
+        only.shop_name + " — " + fmtPct(only.pctAug) + " ของเป้าหมาย (" + st.label + ")",
+        [
+          {strong: only.shop_name}, " ทำยอดขาย ", {strong: fmtMetric(only.actualAug, metric)},
+          " เทียบเป้า ", fmtMetric(only.targetAug, metric),
+          only.mom >= 0 ? ", เติบโต " : ", ลดลง ",
+          {strong: fmtSigned(only.mom,1) + " จากเดือนกรกฎาคม"},
+          " (" + fmtMetric(only.actualJul, metric) + " → " + fmtMetric(only.actualAug, metric) + ")"
+        ]));
+    }
+
+    // Product mix / recommendation card
+    if(state.product === "ALL"){
+      var byProd = computeByProduct(records).sort(function(a,b){return b.net_aug-a.net_aug;});
+      if(byProd.length > 0){
+        var topProd = byProd[0];
+        var totalNet = byProd.reduce(function(a,p){return a+p.net_aug;},0);
+        var share = totalNet>0 ? topProd.net_aug/totalNet*100 : 0;
+        var weakest = byProd.slice().sort(function(a,b){return a.pct-b.pct;})[0];
+        grid.appendChild(insightCard("info", "พอร์ตสินค้า",
+          productLabel(topProd.product) + " ขับเคลื่อน " + fmtPct(share) + " ของยอดขายพื้นที่",
+          [
+            {strong: productLabel(topProd.product)}, " เป็นสินค้าหลักของพื้นที่ คิดเป็น ", {strong: fmtPct(share) + " ของยอดขายสุทธิ"},
+            " ในเดือนสิงหาคม (", fmtMetric(topProd.net_aug,"net"), ") ขณะที่ ", {strong: productLabel(weakest.product)},
+            " ทำได้เพียง ", {strong: fmtPct(weakest.pct) + " ของเป้าหมาย"},
+            " ถือเป็นโอกาสเติบโตที่ควรเสริมแคมเปญกระตุ้นยอดในสาขาที่เกี่ยวข้อง"
+          ]));
+      }
+    } else {
+      grid.appendChild(insightCard("info", "คำแนะนำ",
+        "โฟกัสเฉพาะ " + productLabel(state.product) + " ในพื้นที่ BMA II",
+        [
+          "เมื่อดูเฉพาะสินค้า ", {strong: productLabel(state.product)}, " พื้นที่ทำได้ ", {strong: fmtPct(ov.pctAchieve)},
+          " ของเป้าหมาย ", ov.mom>=0 ? "และมีแนวโน้มเติบโตต่อเนื่อง " : "และยังหดตัวจากเดือนก่อน ",
+          "ควรเทียบผลลัพธ์นี้กับสินค้าอื่นในมุมมอง All Products เพื่อจัดลำดับความสำคัญของแผนกระตุ้นยอดขายในเดือนถัดไป"
+        ]));
+    }
+  }
+
+  // ---------- master render ----------
+  function renderAll(){
+    var records = filteredRecords();
+    var ov = computeOverview(records);
+    var perShop = computePerShop(records);
+    renderKPI(ov);
+    renderRunrate(ov);
+    renderChart(perShop);
+    renderTable(perShop);
+    renderInsights(ov, perShop, records);
+  }
+
+  // ---------- init ----------
+  renderProductFilter();
+  renderShopChecklist();
+  updateShopLabel();
+  setupDropdown();
+  setupMetricToggle();
+  setupClearFilters();
+  document.addEventListener("pointermove", function(e){
+    if(tooltipEl && tooltipEl.classList.contains("show")) moveTooltip(e);
+  });
+  renderAll();
+})();
+</script>
+
+</body>
+</html>
