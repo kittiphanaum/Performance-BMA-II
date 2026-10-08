@@ -68,7 +68,21 @@ header.top .sub{color:var(--muted);font-size:13px}
 .mom .row{display:flex;justify-content:space-between;gap:8px;align-items:baseline;font-size:12.5px}
 .mom .row .k{color:var(--muted);min-width:0}
 .mom .row .v{white-space:nowrap;font-weight:600}
-.spark svg{width:100%;height:64px;display:block}
+.spark svg{width:100%;height:80px;display:block}
+.spk{position:relative;cursor:crosshair;touch-action:pan-y}
+.dot{position:absolute;width:7px;height:7px;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;transition:transform .12s}
+.dot.oct{background:var(--accent);opacity:.0}.dot.oct.last{opacity:1}
+.dot.sep{background:var(--sep);opacity:0}
+.dot.on{opacity:1!important;transform:translate(-50%,-50%) scale(1.35);box-shadow:0 0 0 2px var(--surface)}
+.guide{position:absolute;top:0;bottom:4px;width:1px;background:var(--muted);opacity:.5;pointer-events:none}
+.tip{position:absolute;bottom:calc(100% + 6px);transform:translateX(-50%);min-width:150px;background:var(--ink);color:var(--surface);border-radius:8px;padding:8px 10px;font-size:12px;z-index:3;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.tip-h{font-family:var(--f-display);font-weight:500;margin-bottom:4px}
+.tip-r{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.tip-r i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.tip-r.diff{border-top:1px solid color-mix(in srgb,var(--surface) 25%,transparent);margin-top:4px;padding-top:4px}
+.tip .g{color:color-mix(in srgb,var(--good) 55%,var(--surface))}.tip .r{color:color-mix(in srgb,var(--bad) 55%,var(--surface))}
+.xlab{position:relative;height:16px;font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums;margin-bottom:4px}
+.xlab span{position:absolute;transform:translateX(-50%)}
 .legend{display:flex;gap:12px;font-size:11px;color:var(--muted)}
 .legend i{display:inline-block;width:14px;height:2px;vertical-align:middle;margin-right:4px}
 section.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -180,19 +194,43 @@ function pills(){
   [['all','สรุป'],['t','Target'],['a','Actual'],['ach','%Achieve'],['rr','Runrate'],['rrAch','RR %Ach'],['mom','MoM']].forEach(([k,n])=>{const b=document.createElement('button');b.type='button';b.className='pill'+(st.kpi===k?' on':'');b.textContent=n;b.onclick=()=>{st.kpi=k;render()};kp.appendChild(b)});
 }
 
-function spark(r){
-  const W=240,H=64,P=6,n=r.daily.length;if(n<2)return '';
+const SPK={};
+function spark(r,key){
+  const W=240,H=80,P=8,n=r.daily.length;if(n<2)return '';
+  SPK[key]={r,m:st.metric};
   const mx=Math.max(...r.daily,...r.sepDaily,1);
-  const x=i=>P+(W-2*P)*i/(n-1),y=v=>H-P-(H-2*P-10)*v/mx;
+  const x=i=>P+(W-2*P)*i/(n-1),y=v=>H-4-(H-14)*v/mx;
   const path=a=>a.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)).join(' ');
-  const area=path(r.daily)+` L${x(n-1)} ${H-P} L${x(0)} ${H-P} Z`;
-  const last=r.daily[n-1];
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="ยอดรายวัน">
-    <line x1="${P}" x2="${W-P}" y1="${H-P}" y2="${H-P}" stroke="var(--line)" stroke-width="1"/>
+  const area=path(r.daily)+` L${x(n-1)} ${H-4} L${x(0)} ${H-4} Z`;
+  const px=i=>(x(i)/W*100).toFixed(2)+'%',py=v=>(y(v)/H*100).toFixed(2)+'%';
+  const dots=r.daily.map((v,i)=>`<span class="dot sep" style="left:${px(i)};top:${py(r.sepDaily[i])}"></span><span class="dot oct${i===n-1?' last':''}" style="left:${px(i)};top:${py(v)}"></span>`).join('');
+  const labels=r.daily.map((v,i)=>`<span style="left:${px(i)}">${i+1}</span>`).join('');
+  return `<div class="spk" data-k="${key}" data-n="${n}" data-p="${P/W}">
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="ยอดรายวัน ต.ค. เทียบ ก.ย.">
+    <line x1="0" x2="${W}" y1="${H-4}" y2="${H-4}" stroke="var(--line)" stroke-width="1" vector-effect="non-scaling-stroke"/>
     <path d="${area}" fill="var(--accent)" fill-opacity=".10" stroke="none"/>
     <path d="${path(r.sepDaily)}" fill="none" stroke="var(--sep)" stroke-width="1.5" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"/>
-    <path d="${path(r.daily)}" fill="none" stroke="var(--accent)" stroke-width="2" vector-effect="non-scaling-stroke"/>
-    <circle cx="${x(n-1)}" cy="${y(last)}" r="3" fill="var(--accent)"/></svg>`;
+    <path d="${path(r.daily)}" fill="none" stroke="var(--accent)" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+    ${dots}<i class="guide" hidden></i><div class="tip" hidden></div></div>
+    <div class="xlab">${labels}</div>`;
+}
+function bindSparks(){
+  document.querySelectorAll('.spk').forEach(el=>{
+    const {r,m}=SPK[el.dataset.k],n=+el.dataset.n,p=+el.dataset.p,guide=el.querySelector('.guide'),tip=el.querySelector('.tip');
+    const show=i=>{const xp=(p+(1-2*p)*i/(n-1))*100;guide.style.left=xp+'%';guide.hidden=false;
+      const o=r.daily[i],s=r.sepDaily[i],d=o-s,dp=s?d/s:null;
+      tip.innerHTML=`<div class="tip-h">วันที่ ${i+1}</div>
+        <div class="tip-r"><span><i style="background:var(--accent)"></i>${i+1} ต.ค.</span><b class="num">${fmtFull(o,m)}</b></div>
+        <div class="tip-r"><span><i style="background:var(--sep)"></i>${i+1} ก.ย.</span><b class="num">${fmtFull(s,m)}</b></div>
+        <div class="tip-r diff"><span>ต่าง</span><b class="num ${sgn(d)}">${sd(d,m)}${dp==null?'':' ('+sp(dp)+')'}</b></div>`;
+      tip.hidden=false;tip.style.left=Math.min(Math.max(xp,22),78)+'%';
+      el.querySelectorAll('.dot').forEach((dt,j)=>dt.classList.toggle('on',Math.floor(j/2)===i))};
+    const hide=()=>{guide.hidden=true;tip.hidden=true;el.querySelectorAll('.dot.on').forEach(d=>d.classList.remove('on'))};
+    const at=ev=>{const b=el.getBoundingClientRect();const f=((ev.clientX-b.left)/b.width-p)/(1-2*p);return Math.max(0,Math.min(n-1,Math.round(f*(n-1))))};
+    el.addEventListener('pointermove',ev=>show(at(ev)));
+    el.addEventListener('pointerdown',ev=>show(at(ev)));
+    el.addEventListener('pointerleave',hide);
+  });
 }
 
 function cards(){
@@ -215,8 +253,9 @@ function cards(){
         <div class="row"><span class="k">Runrate vs ก.ย. เต็มเดือน (${fmt(r.sepFull,m)})</span><span class="v num ${sgn(r.rrMom)}">${sp(r.rrMom)} (${sd(r.rrD,m)})</span></div>
         <div class="row"><span class="k">%Ach ก.ย. ปิดเดือน</span><span class="v num ${achCls(r.sepAch)}">${pct(r.sepAch)}</span></div>
       </div>
-      <div class="spark">${spark(r)}<div class="legend"><span><i style="background:var(--accent)"></i>ต.ค. รายวัน</span><span><i style="background:var(--sep)"></i>ก.ย. วันเดียวกัน</span></div></div>
+      <div class="spark">${spark(r,p.k)}<div class="legend"><span><i style="background:var(--accent)"></i>ต.ค. รายวัน</span><span><i style="background:var(--sep)"></i>ก.ย. วันเดียวกัน</span></div></div>
     </article>`}).join('');
+  bindSparks();
 }
 
 function cell(r,m){
