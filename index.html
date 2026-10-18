@@ -82,7 +82,7 @@ header.top .sub{color:var(--muted);font-size:13px}
 .tip-r i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
 .tip-r.diff{border-top:1px solid color-mix(in srgb,var(--surface) 25%,transparent);margin-top:4px;padding-top:4px}
 .tip .g{color:color-mix(in srgb,var(--good) 55%,var(--surface))}.tip .r{color:color-mix(in srgb,var(--bad) 55%,var(--surface))}
-.xlab{position:relative;height:16px;font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums;margin-bottom:4px}
+.xlab{position:relative;height:15px;font-size:9.5px;letter-spacing:0;color:var(--muted);font-variant-numeric:tabular-nums;margin-bottom:4px}
 .xlab span{position:absolute;transform:translateX(-50%)}
 .legend{display:flex;gap:12px;font-size:11px;color:var(--muted)}
 .legend i{display:inline-block;width:14px;height:2px;vertical-align:middle;margin-right:4px}
@@ -205,7 +205,7 @@ function spark(r,key){
   const area=path(r.daily)+` L${x(n-1)} ${H-4} L${x(0)} ${H-4} Z`;
   const px=i=>(x(i)/W*100).toFixed(2)+'%',py=v=>(y(v)/H*100).toFixed(2)+'%';
   const dots=r.daily.map((v,i)=>`<span class="dot sep" style="left:${px(i)};top:${py(r.sepDaily[i])}"></span><span class="dot oct${i===n-1?' last':''}" style="left:${px(i)};top:${py(v)}"></span>`).join('');
-  const labels=r.daily.map((v,i)=>`<span style="left:${px(i)}">${i+1}</span>`).join('');
+  const labels=r.daily.map((v,i)=>`<span data-i="${i}" style="left:${px(i)}">${i+1}</span>`).join('');
   return `<div class="spk" data-k="${key}" data-n="${n}" data-p="${P/W}">
     <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="ยอดรายวัน ต.ค. เทียบ ก.ย.">
     <line x1="0" x2="${W}" y1="${H-4}" y2="${H-4}" stroke="var(--line)" stroke-width="1" vector-effect="non-scaling-stroke"/>
@@ -215,7 +215,14 @@ function spark(r,key){
     ${dots}<i class="guide" hidden></i><div class="tip" hidden></div></div>
     <div class="xlab">${labels}</div>`;
 }
+function thinLabels(){
+  document.querySelectorAll('.xlab').forEach(x=>{const sp=[...x.children],n=sp.length;if(!n)return;
+    const gap=(x.clientWidth||200)/(Math.max(n-1,1));const step=Math.max(1,Math.ceil(18/gap));
+    sp.forEach((s,i)=>{const show=i%step===0||i===n-1;const nearLast=i!==n-1&&(n-1-i)<step&&(n-1-i)*gap<18;s.hidden=!show||nearLast})});
+}
+let _rz;addEventListener('resize',()=>{clearTimeout(_rz);_rz=setTimeout(thinLabels,100)});
 function bindSparks(){
+  thinLabels();
   document.querySelectorAll('.spk').forEach(el=>{
     const {r,m}=SPK[el.dataset.k],n=+el.dataset.n,p=+el.dataset.p,guide=el.querySelector('.guide'),tip=el.querySelector('.tip');
     const show=i=>{const xp=(p+(1-2*p)*i/(n-1))*100;guide.style.left=xp+'%';guide.hidden=false;
